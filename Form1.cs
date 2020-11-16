@@ -32,53 +32,59 @@ namespace DeThiHocKi
 
         private void btnTimKiem_Click(object sender, EventArgs e)
         {
+
             if (!IsNumeric(txtLuongBatDau.Text) || !IsNumeric(txtLuongKetThuc.Text))
             {
                 MessageBox.Show("Chi duoc nhap so nguyen vao o luong");
             }
-            //truong hop khong nhap gi se hien ra tat ca nhan vien
-            if (txtLuongBatDau.Text.Trim()=="" && txtLuongKetThuc.Text.Trim() ==""&& cbCongViec.Text.Trim()==""
-&& cbGioiTinh.Text.Trim()=="" && cbThangSinh.Text.Trim()=="")
+            //chua nhap gi trong 2 o lương
+            if (txtLuongBatDau.Text.Trim() == "" && txtLuongKetThuc.Text.Trim() == "" && cbCongViec.GetItemText(cbCongViec.SelectedValue) == ""
+                && cbGioiTinh.GetItemText(cbCongViec.SelectedValue) == "" && cbThangSinh.GetItemText(cbCongViec.SelectedValue) == "")
             {
                 MessageBox.Show("Ban chua nhap gi nen se hien thi tat ca");
                 dtgvNhanVien.DataSource = data.DataReader("select * from NhanVien");
             }
-
-            //ham xu li tim kiem luong
-            if (txtLuongBatDau.Text.Trim() != "" && txtLuongKetThuc.Text.Trim() != "")
+            //nhập rồi
+            else
             {
-                dtgvNhanVien.DataSource = data.DataReader("select * from nhanvien where luong>=" + txtLuongBatDau.Text + "and luong<=" + txtLuongKetThuc.Text);
-            }
+                //chỉ nhập ô lương đầu
+                if(txtLuongBatDau.Text.Trim() != "" && txtLuongKetThuc.Text.Trim() == "" )
+                {
+                    MessageBox.Show("chưa nhập lương kết thúc nhá con vợ");
+                    string sql1 = "select * from nhanvien where luong >= " + txtLuongBatDau.Text + " and gioitinh = '"
+                       + cbGioiTinh.GetItemText(cbGioiTinh.SelectedItem) +"'" +" and congviec = '"+cbCongViec.GetItemText(cbCongViec.SelectedItem)+"'"
+                       +" and month(ngaysinh) = "+ cbThangSinh.GetItemText(cbThangSinh.SelectedItem);
 
+                    //dtgvNhanVien.DataSource = data.DataReader("select * from nhanvien where congviec='"+cbCongViec.GetItemText(cbCongViec.SelectedItem)+"'");
+                    dtgvNhanVien.DataSource = data.DataReader(sql1);
+
+                }    
+
+                //chỉ nhập ô kết thúc
+                if(txtLuongBatDau.Text.Trim() == "" && txtLuongKetThuc.Text.Trim() != "")
+                {
+                    MessageBox.Show("chưa nhập lương bắt đầu nhá con vợ");
+                    string sql1 = "select * from nhanvien where luong <= " + txtLuongKetThuc.Text + " and gioitinh = '"
+                       + cbGioiTinh.GetItemText(cbGioiTinh.SelectedItem) + "'" + " and congviec = '" + cbCongViec.GetItemText(cbCongViec.SelectedItem) + "'"
+                       + " and month(ngaysinh) = " + cbThangSinh.GetItemText(cbThangSinh.SelectedItem);
+
+                    //dtgvNhanVien.DataSource = data.DataReader("select * from nhanvien where congviec='"+cbCongViec.GetItemText(cbCongViec.SelectedItem)+"'");
+                    dtgvNhanVien.DataSource = data.DataReader(sql1);
+                }
+                //nhập cả 2 ô
+                if (txtLuongBatDau.Text.Trim() != "" && txtLuongKetThuc.Text.Trim() != "")
+                {
+                    MessageBox.Show("ok đầy đủ thông tin");
+                    string sql1 = "select * from nhanvien where luong >= " + txtLuongBatDau.Text +" and luong <="+txtLuongKetThuc.Text +" and gioitinh = '"
+                       + cbGioiTinh.GetItemText(cbGioiTinh.SelectedItem) + "'" + " and congviec = '" + cbCongViec.GetItemText(cbCongViec.SelectedItem) + "'"
+                       + " and month(ngaysinh) = " + cbThangSinh.GetItemText(cbThangSinh.SelectedItem);
+
+                    //dtgvNhanVien.DataSource = data.DataReader("select * from nhanvien where congviec='"+cbCongViec.GetItemText(cbCongViec.SelectedItem)+"'");
+                    dtgvNhanVien.DataSource = data.DataReader(sql1);
+                }
+
+            }    
             
-
-            if(txtLuongBatDau.Text.Trim() == "" && txtLuongKetThuc.Text.Trim() !="")
-            {
-                dtgvNhanVien.DataSource = data.DataReader("select * from nhanvien where luong<=" + txtLuongKetThuc.Text);
-            }
-            if (txtLuongBatDau.Text.Trim() != "" && txtLuongKetThuc.Text.Trim() == "")
-            {
-                dtgvNhanVien.DataSource = data.DataReader("select * from nhanvien where luong>=" + txtLuongBatDau.Text);
-            }
-
-            
-            //ham xu li tim kiem gioi tinh
-            
-            if(cbGioiTinh.GetItemText(cbGioiTinh.SelectedValue) == "NU")
-            { 
-                dtgvNhanVien.DataSource = data.DataReader("select * from nhanvien where gioitinh = N'NU'");
-                
-            }
-            if (cbGioiTinh.GetItemText(cbGioiTinh.SelectedValue) == "NAM")
-            {
-                dtgvNhanVien.DataSource = data.DataReader("select * from nhanvien where gioitinh = N'NAM'");
-
-            }
-
-
-
-
-
 
         }
 
@@ -105,14 +111,47 @@ namespace DeThiHocKi
             }
         }
         
+        public void LoadComboCongViec()
+        {
+            DataTable dt = new DataTable();
+            dt = data.DataReader("select distinct congviec from nhanvien");
+            try {
+                cbCongViec.DataSource = dt;
+                cbCongViec.DisplayMember = "congviec";
+                cbCongViec.ValueMember = "congviec";
+            }
+            catch { }
+        }
+        public void LoadNgaySinh()
+        {
+            DataTable dt = new DataTable();
+            dt = data.DataReader("select distinct month(ngaysinh) as thangsinh from nhanvien");
+            try
+            {
+                cbThangSinh.DataSource = dt;
+                cbThangSinh.DisplayMember = "thangsinh";
+                cbThangSinh.ValueMember = "thangsinh";
+            }
+            catch
+            {
+
+            }
+        }
             private void frmQuanLiNhanVien_Load(object sender, EventArgs e)
         {
             
             dtgvNhanVien.DataSource = data.DataReader("select * from NhanVien");
             //xu li chua nhap gi
             LoadComboGioiTinh();
+            LoadComboCongViec();
+            LoadNgaySinh();
             
             
+        }
+
+        private void dtgvNhanVien_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            MessageBox.Show("ok");
         }
     }
 }
