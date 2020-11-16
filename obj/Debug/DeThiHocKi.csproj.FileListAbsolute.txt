@@ -1,0 +1,10 @@
+D:\Nam3_Ki1_UTC\LapTrinhTrucQuang\Code\DeThiHocKi\bin\Debug\DeThiHocKi.exe.config
+D:\Nam3_Ki1_UTC\LapTrinhTrucQuang\Code\DeThiHocKi\bin\Debug\DeThiHocKi.exe
+D:\Nam3_Ki1_UTC\LapTrinhTrucQuang\Code\DeThiHocKi\bin\Debug\DeThiHocKi.pdb
+D:\Nam3_Ki1_UTC\LapTrinhTrucQuang\Code\DeThiHocKi\obj\Debug\DeThiHocKi.csprojAssemblyReference.cache
+D:\Nam3_Ki1_UTC\LapTrinhTrucQuang\Code\DeThiHocKi\obj\Debug\DeThiHocKi.frmQuanLiNhanVien.resources
+D:\Nam3_Ki1_UTC\LapTrinhTrucQuang\Code\DeThiHocKi\obj\Debug\DeThiHocKi.Properties.Resources.resources
+D:\Nam3_Ki1_UTC\LapTrinhTrucQuang\Code\DeThiHocKi\obj\Debug\DeThiHocKi.csproj.GenerateResource.cache
+D:\Nam3_Ki1_UTC\LapTrinhTrucQuang\Code\DeThiHocKi\obj\Debug\DeThiHocKi.csproj.CoreCompileInputs.cache
+D:\Nam3_Ki1_UTC\LapTrinhTrucQuang\Code\DeThiHocKi\obj\Debug\DeThiHocKi.exe
+D:\Nam3_Ki1_UTC\LapTrinhTrucQuang\Code\DeThiHocKi\obj\Debug\DeThiHocKi.pdb
